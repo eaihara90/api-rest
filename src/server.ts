@@ -1,12 +1,13 @@
 import http from 'http';
 
-import 'dotenv/config';
-
 import application from '@/app/application';
+import config from '@/app/config';
 
-
-const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(application.getInstance());
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(config.server.PORT, () => {
+  console.log(`Server running on config.server.PORT ${config.server.PORT}`)
+});
+
+// application.run(config.server.PORT);

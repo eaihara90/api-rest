@@ -11,12 +11,17 @@ class Application {
     this.setRouters();
   }
 
+  // public run(port: string | number): void {
+  //   this.instance.listen(port,)
+  // }
+
   public getInstance(): ExpressApplication {
     return this.instance;
   }
 
   private setMiddlewares(): void {
     this.instance.use(express.json());
+    // this.instance.use(apiErrorHandler);
   }
 
   private setRouters(): void {
