@@ -1,7 +1,7 @@
 import express, { Application as ExpressApplication } from 'express';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 
-import { container } from './awilix-config';
+import { container } from '@/config/awilix-config';
 
 class Application {
   private readonly instance: ExpressApplication;
@@ -12,9 +12,11 @@ class Application {
     // this.setRouters();
   }
 
-  // public run(port: string | number): void {
-  //   this.instance.listen(port,)
-  // }
+  public run(port: string | number): void {
+    this.instance.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  }
 
   public getInstance(): ExpressApplication {
     return this.instance;
