@@ -2,19 +2,21 @@ import express, { Application as ExpressApplication } from 'express';
 import { loadControllers, scopePerRequest } from 'awilix-express';
 
 import { container } from '@/config/awilix-config';
+import db from '@/db/db-connection';
 
 class Application {
   private readonly instance: ExpressApplication;
 
   constructor() {
     this.instance = express();
+
     this.setupMiddlewares();
-    // this.setRouters();
   }
 
   public run(port: string | number): void {
     this.instance.listen(port, () => {
       console.log(`Server running on port ${port}`);
+      db.connect();
     });
   }
 
