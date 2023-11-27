@@ -1,10 +1,8 @@
 import { IRepository } from "@/interfaces/IRepository";
 import { ProductModel } from "@/models/product.model";
 
-export class ProductsRepository implements IRepository<ProductModel> {
-  constructor() {
-    console.log('PRODUCTS RESPOSITORY')
-  }
+export default class ProductsRepository implements IRepository<ProductModel> {
+  constructor() { }
 
   public async findAll(): Promise<Array<ProductModel>> {
     return new Promise<Array<ProductModel>>((res, req) => {

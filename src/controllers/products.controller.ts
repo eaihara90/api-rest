@@ -7,9 +7,7 @@ import { ProductModel } from '@/models/product.model';
 
 @route('/products')
 export default class ProductsController implements IController<ProductModel> {
-  constructor(private readonly productsRepository: IRepository<ProductModel>) {
-    console.log('PRODUCTS CONTROLLER')
-  }
+  constructor(private readonly productsRepository: IRepository<ProductModel>) { }
 
   @route('')
   @GET()
