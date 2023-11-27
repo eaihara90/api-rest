@@ -1,4 +1,5 @@
 import express, { Application as ExpressApplication } from 'express';
+
 import mainRouter from './main-router';
 
 class Application {

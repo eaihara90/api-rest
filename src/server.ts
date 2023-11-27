@@ -1,5 +1,6 @@
-import 'dotenv/config';
 import http from 'http';
+
+import 'dotenv/config';
 
 import application from '@/app/application';
 
