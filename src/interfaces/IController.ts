@@ -1,7 +1,9 @@
+import { Request, Response } from "express";
+
 export interface IController<T> {
-  getAll(): Promise<Array<T>>;
-  getById(id: string): Promise<T>;
-  save(model: T): Promise<T>;
-  delete(id: string): Promise<void>;
-  update(model: T): Promise<T>;
+  getAll(req: Request, res: Response): Promise<void>;
+  getById(req: Request, res: Response): Promise<void>;
+  save(req: Request, res: Response): Promise<void>;
+  delete(req: Request, res: Response): Promise<void>;
+  update(req: Request, res: Response): Promise<void>;
 }
