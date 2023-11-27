@@ -1,14 +1,15 @@
 import express, { Application as ExpressApplication } from 'express';
+import { loadControllers, scopePerRequest } from 'awilix-express';
 
-import mainRouter from './main-router';
+import { container } from './awilix-config';
 
 class Application {
   private readonly instance: ExpressApplication;
 
   constructor() {
     this.instance = express();
-    this.setMiddlewares();
-    this.setRouters();
+    this.setupMiddlewares();
+    // this.setRouters();
   }
 
   // public run(port: string | number): void {
@@ -19,13 +20,11 @@ class Application {
     return this.instance;
   }
 
-  private setMiddlewares(): void {
+  private setupMiddlewares(): void {
     this.instance.use(express.json());
+    this.instance.use(scopePerRequest(container));
+    this.instance.use('/api', loadControllers('../controllers/*.ts', { cwd: __dirname }));
     // this.instance.use(apiErrorHandler);
-  }
-
-  private setRouters(): void {
-    this.instance.use('/api', mainRouter.handler);
   }
 }
 
