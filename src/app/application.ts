@@ -1,4 +1,5 @@
 import express, { Application as ExpressApplication } from 'express';
+import mainRouter from './main-router';
 
 class Application {
   private readonly instance: ExpressApplication;
@@ -18,9 +19,7 @@ class Application {
   }
 
   private setRouters(): void {
-    this.instance.use('/api', (req, res) => {
-      res.send('Working');
-    });
+    this.instance.use('/api', mainRouter.handler);
   }
 }
 
