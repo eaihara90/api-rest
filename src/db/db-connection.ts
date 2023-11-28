@@ -4,7 +4,7 @@ import config from '@/config/config';
 
 const { db } = config;
 
-class DbConnection {
+export class DbConnection {
   private readonly client: Client;
 
   constructor() {
