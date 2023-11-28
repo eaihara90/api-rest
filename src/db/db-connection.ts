@@ -26,12 +26,12 @@ export class DbConnection {
     }
   }
 
-  public async query(query: string): Promise<any> {
+  public async query(query: string): Promise<any | any[]> {
     try {
       const response = await this.client.query(query);
       return response.rows;
     } catch (error) {
-      
+      throw Error(`Error while querying: ${error}`);
     }
   }
 }
