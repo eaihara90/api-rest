@@ -14,9 +14,9 @@ class Application {
   }
 
   public run(port: string | number): void {
-    this.instance.listen(port, () => {
+    this.instance.listen(port, async () => {
       console.log(`Server running on port ${port}`);
-      db.connect();
+      await db.connect();
     });
   }
 

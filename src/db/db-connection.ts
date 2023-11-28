@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client, QueryResult } from 'pg';
 
 import config from '@/config/config';
 
@@ -17,13 +17,21 @@ class DbConnection {
     });
   }
 
-
   public async connect(): Promise<void> {
     try {
       await this.client.connect();
       console.log(`Connected to database ${db.NAME}`);
     } catch (error) {
       console.log(`Error while connecting to database ${db.NAME}`);
+    }
+  }
+
+  public async query(query: string): Promise<any> {
+    try {
+      const response = await this.client.query(query);
+      return response.rows;
+    } catch (error) {
+      
     }
   }
 }
