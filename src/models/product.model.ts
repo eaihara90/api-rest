@@ -4,6 +4,14 @@ export class ProductModel {
   private price!: number;
   private quantity!: number;
 
+  public getId(): string {
+    return this.id! ;
+  }
+
+  public setId(id: string): void {
+    this.id = id;
+  }
+
   public getName(): string {
     return this.name;
   }
