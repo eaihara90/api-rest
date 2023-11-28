@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { route, GET, POST, DELETE, PUT } from 'awilix-express';
+import { v4 as uuidv4 } from 'uuid';
 
 import { IController } from '@/interfaces/IController';
 import { IRepository } from '@/interfaces/IRepository';
 import { ProductModel } from '@/models/product.model';
+import { InputProductDTO } from '@/dto/product.dto';
 
 @route('/products')
 export default class ProductsController implements IController<ProductModel> {
@@ -25,7 +27,8 @@ export default class ProductsController implements IController<ProductModel> {
   @GET()
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      res.json({});
+      const outputProductDTO = await this.productsRepository.findById(req.params.id);
+      res.json(outputProductDTO);
     } catch (error) {
       
     }
@@ -35,8 +38,35 @@ export default class ProductsController implements IController<ProductModel> {
   @POST()
   public async save(req: Request, res: Response): Promise<void> {
     try {
-      console.log(req.body);
-      res.json(req.body);
+      const objectProperties = [
+        {
+          name: 'name',
+          type: 'string'
+        },
+        {
+          name: 'price',
+          type: 'number'
+        },
+        {
+          name: 'quantity',
+          type: 'number'
+        },
+      ];
+
+      if (!this.isValidRequestBodyFields(req.body, objectProperties)) {
+        // console.log(`Field '${field.name}' doesn't exist on request body or its value doesn't match '${field.type}'`);
+        res.status(400).json({ message: `One or more fields doesn't exist on request body or its value doesn't match` });
+      }
+      
+      const inputProductDTO = new InputProductDTO();
+      inputProductDTO.setId(uuidv4());
+      inputProductDTO.setName(req.body.name);
+      inputProductDTO.setPrice(req.body.price);
+      inputProductDTO.setQuantity(req.body.quantity);
+
+      const outputProductDTO = await this.productsRepository.save(inputProductDTO);
+  
+      res.json(outputProductDTO);
     } catch (error) {
       
     }
@@ -60,5 +90,15 @@ export default class ProductsController implements IController<ProductModel> {
     } catch (error) {
       
     }
+  }
+
+  private isValidRequestBodyFields(body: any, validationFields: { name: string, type: string }[]): boolean {
+    validationFields.forEach(field => {
+      if (!body.hasOwnProperty(field.name) || typeof body[field.name] !== field.type) {
+        return false;
+      }
+    });
+
+    return true;
   }
 }
