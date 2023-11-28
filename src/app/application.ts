@@ -9,7 +9,6 @@ class Application {
 
   constructor() {
     this.instance = express();
-
     this.setupMiddlewares();
   }
 

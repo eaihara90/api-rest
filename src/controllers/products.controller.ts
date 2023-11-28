@@ -14,9 +14,6 @@ export default class ProductsController implements IController<ProductModel> {
   public async getAll(req: Request, res: Response): Promise<void> {
     try {
       const response = await this.productsRepository.findAll();
-      
-      console.log(response);
-
       res.json(response);
 
     } catch (error) {
