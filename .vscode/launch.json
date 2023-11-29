@@ -7,6 +7,19 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Debugger",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\src\\server.ts",
+      "preLaunchTask": "npm: debug",
+      "outFiles": [
+        "${workspaceFolder}/dist_debug/**/*.js"
+      ],
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"
@@ -16,6 +29,6 @@
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
-    }
+    },
   ]
 }
