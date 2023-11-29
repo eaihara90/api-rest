@@ -26,7 +26,8 @@ class Application {
   private setupMiddlewares(): void {
     this.instance.use(express.json());
     this.instance.use(scopePerRequest(container));
-    this.instance.use('/api', loadControllers('../controllers/*.ts', { cwd: __dirname }));
+    this.instance.use('/api', loadControllers('../controllers/*controller.ts', { cwd: __dirname }));
+    this.instance.use('/api', loadControllers('../controllers/*controller.js', { cwd: __dirname }));
     // this.instance.use(apiErrorHandler);
   }
 }
