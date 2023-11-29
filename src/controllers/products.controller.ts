@@ -54,8 +54,9 @@ export default class ProductsController implements IController<ProductModel> {
       ];
 
       if (!this.isValidRequestBodyFields(req.body, objectProperties)) {
-        // console.log(`Field '${field.name}' doesn't exist on request body or its value doesn't match '${field.type}'`);
+        // console.log(`Field '' doesn't exist on request body or its value doesn't match ''`);
         res.status(400).json({ message: `One or more fields doesn't exist on request body or its value doesn't match` });
+        return;
       }
       
       const inputProductDTO = new InputProductDTO();
@@ -93,12 +94,18 @@ export default class ProductsController implements IController<ProductModel> {
   }
 
   private isValidRequestBodyFields(body: any, validationFields: { name: string, type: string }[]): boolean {
+    let isValid = true;
+
+    if (!body) {
+      isValid = false;
+    }
+    
     validationFields.forEach(field => {
       if (!body.hasOwnProperty(field.name) || typeof body[field.name] !== field.type) {
-        return false;
+        isValid = false;
       }
     });
 
-    return true;
+    return isValid;
   }
 }
