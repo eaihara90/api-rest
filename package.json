@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
-    "build": "tsc --build && tsc-alias"
+    "debug": "tsc -p tsconfig.debug.json && tsc-alias -p tsconfig.debug.json",
+    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "author": "Eduardo Aihara",
   "license": "MIT",
