@@ -3,6 +3,7 @@ import { loadControllers, scopePerRequest } from 'awilix-express';
 
 import { container } from '@/config/awilix-config';
 import db from '@/db/db-connection';
+import logger from '@/middlewares/logger';
 
 class Application {
   private readonly instance: ExpressApplication;
@@ -25,9 +26,9 @@ class Application {
 
   private setupMiddlewares(): void {
     this.instance.use(express.json());
+    this.instance.use(logger);
     this.instance.use(scopePerRequest(container));
-    this.instance.use('/api', loadControllers('../controllers/*controller.ts', { cwd: __dirname }));
-    this.instance.use('/api', loadControllers('../controllers/*controller.js', { cwd: __dirname }));
+    this.instance.use('/api', loadControllers('../controllers/*controller.*s', { cwd: __dirname }));
     // this.instance.use(apiErrorHandler);
   }
 }
