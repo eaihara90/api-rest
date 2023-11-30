@@ -1,25 +1,25 @@
 import { Request, Response } from 'express';
 import { route, GET, POST, DELETE, PUT } from 'awilix-express';
-import { v4 as uuidv4 } from 'uuid';
+
 
 import { IController } from '@/interfaces/IController';
-import { IRepository } from '@/interfaces/IRepository';
 import { ProductModel } from '@/models/product.model';
 import { InputProductDTO } from '@/dto/product.dto';
+import { IService } from '@/interfaces/IService';
 
 @route('/products')
 export default class ProductsController implements IController<ProductModel> {
-  constructor(private readonly productsRepository: IRepository<ProductModel>) { }
+  constructor(private readonly productsService: IService<ProductModel>) { }
 
   @route('')
   @GET()
   public async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const response = await this.productsRepository.findAll();
+      const response = await this.productsService.findAll();
       res.json(response);
 
     } catch (error) {
-
+      res.status(500).send();
     }
   }
 
@@ -27,10 +27,10 @@ export default class ProductsController implements IController<ProductModel> {
   @GET()
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      const outputProductDTO = await this.productsRepository.findById(req.params.id);
+      const outputProductDTO = await this.productsService.findById(req.params.id);
       res.json(outputProductDTO);
     } catch (error) {
-      
+      res.status(500).send();
     }
   }
 
@@ -59,17 +59,11 @@ export default class ProductsController implements IController<ProductModel> {
         return;
       }
       
-      const inputProductDTO = new InputProductDTO();
-      inputProductDTO.setId(uuidv4());
-      inputProductDTO.setName(req.body.name);
-      inputProductDTO.setPrice(req.body.price);
-      inputProductDTO.setQuantity(req.body.quantity);
-
-      const outputProductDTO = await this.productsRepository.save(inputProductDTO);
+      const outputProductDTO = await this.productsService.save(<InputProductDTO>req.body);
   
       res.json(outputProductDTO);
     } catch (error) {
-      
+      res.status(500).send();
     }
   }
 
@@ -77,9 +71,10 @@ export default class ProductsController implements IController<ProductModel> {
   @DELETE()
   public async delete(req: Request, res: Response): Promise<void> {
     try {
-      res.json({});
+      await this.productsService.delete(req.params.id);
+      res.status(201).json(true);
     } catch (error) {
-      
+      res.status(500).send();
     }
   }
 
@@ -89,7 +84,7 @@ export default class ProductsController implements IController<ProductModel> {
     try {
       res.json({});
     } catch (error) {
-      
+      res.status(500).send();
     }
   }
 
