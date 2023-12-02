@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { route, GET, POST, DELETE, PUT } from 'awilix-express';
+import { route, GET, POST, DELETE, PUT, PATCH } from 'awilix-express';
 
 
 import { IController } from '@/interfaces/IController';
@@ -81,6 +81,16 @@ export default class ProductsController implements IController<ProductModel> {
   @route('')
   @PUT()
   public async update(req: Request, res: Response): Promise<void> {
+    try {
+      res.json({});
+    } catch (error) {
+      res.status(500).send();
+    }
+  }
+
+  @route('')
+  @PATCH()
+  public async test(req: Request, res: Response): Promise<void> {
     try {
       res.json({});
     } catch (error) {
